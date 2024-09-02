@@ -2,25 +2,26 @@ import java.util.Scanner;
 
 public class Register {
     private static final Denomination[] denominations = {
-            new Denomination("Twenty Dollar Bill", 20.00),
-            new Denomination("Ten Dollar Bill", 10.00),
-            new Denomination("Five Dollar Bill", 5.00),
-            new Denomination("One Dollar Bill", 1.00),
-            new Denomination("Quarter", 0.25),
-            new Denomination("Nickle", 0.05),
-            new Denomination("Dimes", 0.10),
-            new Denomination("Penny", 0.01),
+            new Denomination("Fifty Dollar",50.00,"Bill", "fifty_note.png"),
+            new Denomination("Twenty Dollar",20.00, "Bill","twenty_note.png"),
+            new Denomination("Ten Dollar", 10.00, "Bill","ten_note.png"),
+            new Denomination("Five Dollar", 5.00, "Bill","five_note.png"),
+            new Denomination("One Dollar",1.00, "Bill","one_note.png"),
+            new Denomination("Quarter", 0.25,"Coin","quarter.png"),
+            new Denomination("Dime", 0.10,"Coin","dime.png"),
+            new Denomination("Nickle", 0.05,"Coin","nickle.png"),
+            new Denomination("Penny", 0.01, "Coin","penny.png"),
     };
 
-    public Purse makeChange(double amt){
-        Purse purse = new Purse(denominations);
+    public static Purse makeChange(double amt){
+        Purse purse = new Purse(Register.denominations);
 
-        for (int i = 0;i < denominations.length;i++){
-            Denomination denomination = denominations[i];
-            int count = (int)(amt / denomination.values());
+        for (int i = 0; i < Register.denominations.length; i++){
+            Denomination denomination = Register.denominations[i];
+            int count = (int)(amt / denomination.value());
             if (count > 0){
                 purse.addDenomination(i,count);
-                amt -= (count * denomination.values());
+                amt -= (count * denomination.value());
                 //amt = (amt * 100.0) / 100.0;
             }
         }
@@ -36,11 +37,14 @@ public class Register {
         Purse purse = register.makeChange(amt);
 
         System.out.println("Your Purse contains:");
+        if (amt < 0){
+            System.out.println("Empty Purse");
+        }
         Denomination[] denominations = purse.getDenomination();
         int[] count = purse.getCount();
         for (int i = 0;i < denominations.length;i++){
             if (count[i] > 0){
-                System.out.println(denominations[i].name() + "(s): " + count[i]);
+                System.out.println(denominations[i].name() + " " + denominations[i].form() + "(s): " + count[i]);
             }
         }
     }
