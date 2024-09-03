@@ -18,7 +18,7 @@ public class Register {
 
     public static Purse makeChange(double amt){
         Purse purse = new Purse();
-        double remaining = amt;
+        double remaining = Math.round (amt * 100.0) / 100.0;
 
         for (Denomination denomination : denominations) {
             int count = (int) (remaining / denomination.value());
@@ -28,18 +28,6 @@ public class Register {
             }
         }
         return purse;
-        /*Purse purse = new Purse(Register.denominations);
-
-        for (int i = 0; i < Register.denominations.length; i++){
-            Denomination denomination = Register.denominations[i];
-            int count = (int)(amt / denomination.value());
-            if (count > 0){
-                purse.addDenomination(i,count);
-                amt -= (count * denomination.value());
-                amt = (amt * 100.0) / 100.0;
-            }
-        }
-        return purse;*/
     }
 
     public static void main(String[] args) {
@@ -48,20 +36,13 @@ public class Register {
 
         System.out.println("Enter the amount you'd like to convert to dollars and change: ");
         double amt = scan.nextDouble();
-        Purse change = Register.makeChange(amt);
+        Purse change = register.makeChange(amt);
 
         System.out.println("Your Purse contains: " + change);
 
         if (amt <= 0){
             System.out.println("Empty Purse");
         }
-        /*Denomination[] denominations = purse.getDenomination();
-        int[] count = purse.getCount();
-        for (int i = 0;i < denominations.length;i++){
-            if (count[i] > 0){
-                System.out.println(denominations[i].name() + " " + denominations[i].form() + "(s): " + count[i]);
-            }
-        }*/
     }
 
 }
