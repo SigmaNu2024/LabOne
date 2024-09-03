@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+record Denomination(String name, double value, String form, String img){}
+
+
 public class Register {
     private static final Denomination[] denominations = {
             new Denomination("Fifty Dollar",50.00,"Bill", "fifty_note.png"),
@@ -14,7 +17,18 @@ public class Register {
     };
 
     public static Purse makeChange(double amt){
-        Purse purse = new Purse(Register.denominations);
+        Purse purse = new Purse();
+        double remaining = amt;
+
+        for (Denomination denomination : denominations) {
+            int count = (int) (remaining / denomination.value());
+            if (count > 0){
+                purse.add(denomination, count);
+                remaining -= denomination.value() * count;
+            }
+        }
+        return purse;
+        /*Purse purse = new Purse(Register.denominations);
 
         for (int i = 0; i < Register.denominations.length; i++){
             Denomination denomination = Register.denominations[i];
@@ -22,10 +36,10 @@ public class Register {
             if (count > 0){
                 purse.addDenomination(i,count);
                 amt -= (count * denomination.value());
-                //amt = (amt * 100.0) / 100.0;
+                amt = (amt * 100.0) / 100.0;
             }
         }
-        return purse;
+        return purse;*/
     }
 
     public static void main(String[] args) {
@@ -34,19 +48,20 @@ public class Register {
 
         System.out.println("Enter the amount you'd like to convert to dollars and change: ");
         double amt = scan.nextDouble();
-        Purse purse = register.makeChange(amt);
+        Purse change = Register.makeChange(amt);
 
-        System.out.println("Your Purse contains:");
-        if (amt < 0){
+        System.out.println("Your Purse contains: " + change);
+
+        if (amt <= 0){
             System.out.println("Empty Purse");
         }
-        Denomination[] denominations = purse.getDenomination();
+        /*Denomination[] denominations = purse.getDenomination();
         int[] count = purse.getCount();
         for (int i = 0;i < denominations.length;i++){
             if (count[i] > 0){
                 System.out.println(denominations[i].name() + " " + denominations[i].form() + "(s): " + count[i]);
             }
-        }
+        }*/
     }
 
 }
