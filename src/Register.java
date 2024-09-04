@@ -1,10 +1,12 @@
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 record Denomination(String name, double value, String form, String img){}
 
 
 public class Register {
-    private static final Denomination[] denominations = {
+    private static final List<Denomination> denominations = Arrays.asList(
             new Denomination("Fifty Dollar",50.00,"Bill", "fifty_note.png"),
             new Denomination("Twenty Dollar",20.00, "Bill","twenty_note.png"),
             new Denomination("Ten Dollar", 10.00, "Bill","ten_note.png"),
@@ -13,8 +15,8 @@ public class Register {
             new Denomination("Quarter", 0.25,"Coin","quarter.png"),
             new Denomination("Dime", 0.10,"Coin","dime.png"),
             new Denomination("Nickle", 0.05,"Coin","nickle.png"),
-            new Denomination("Penny", 0.01, "Coin","penny.png"),
-    };
+            new Denomination("Penny", 0.01, "Coin","penny.png")
+    );
 
     public static Purse makeChange(double amt){
         Purse purse = new Purse();
@@ -38,7 +40,7 @@ public class Register {
         double amt = scan.nextDouble();
         Purse change = register.makeChange(amt);
 
-        System.out.println("Your Purse contains: " + change);
+        System.out.println("Your Purse contains: \n" + change);
 
         if (amt <= 0){
             System.out.println("Empty Purse");
